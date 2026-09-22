@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Estudo Intensivo - Banco de Dados Relacionais</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --accent-blue: #eff6ff;
+            --accent-green: #f0fdf4;
+            --border-green: #22c55e;
+            --accent-amber: #fffbeb;
+            --border-amber: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg-body);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 30px 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin-bottom: 12px;
+        }
+
+        .sidebar a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar a:hover {
+            background: #334155;
+            color: #ffffff;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .header {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            color: var(--primary-dark);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            color: var(--text-main);
+            font-size: 1.2rem;
+            margin: 24px 0 12px 0;
+        }
+
+        p {
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        ul, ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Callout Boxes */
+        .box {
+            padding: 18px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        .box-info {
+            background-color: var(--accent-blue);
+            border-left: 4px solid var(--primary);
+        }
+
+        .box-success {
+            background-color: var(--accent-green);
+            border-left: 4px solid var(--border-green);
+        }
+
+        .box-warning {
+            background-color: var(--accent-amber);
+            border-left: 4px solid var(--border-amber);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+
+        .tag-aula {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* Responsividade e Impressão */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+
+        @media print {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 0;
+            }
+            .section {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                margin-bottom: 40px;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegação Lateral -->
+    <nav class="sidebar">
+        <h2>Índice da Prova</h2>
+        <ul>
+            <li><a href="#aula1">1. Dado e Informação</a></li>
+            <li><a href="#aula2">2. DER e Cardinalidade</a></li>
+            <li><a href="#aula3">3. Entidades Especiais</a></li>
+            <li><a href="#aula4">4. Modelagem por Texto</a></li>
+            <li><a href="#aula5">5. Esquema Relacional & Chaves</a></li>
+            <li><a href="#aula6">6. Normalização (1FN, 2FN, 3FN)</a></li>
+        </ul>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+
+        <header class="header">
+            <h1>Guia de Estudo: Banco de Dados Relacionais</h1>
+            <p>Resumo teórico-prático completo com foco nos tópicos cobrados na avaliação[cite: 1].</p>
+        </header>
+
+        <!-- AULA 01 -->
+        <section id="aula1" class="section">
+            <h2>1. Conceitos Básicos de Dado e Informação <span class="tag tag-aula">Aula 01</span></h2>
+            
+            <p>A distinção entre dado e informação é a base de toda a construção de sistemas de informação e bancos de dados[cite: 1]:</p>
+            
+            <ul>
+                <li><strong>Dado:</strong> É a menor unidade de registo. Trata-se de um facto bruto, sem contexto, interpretação ou significado direto[cite: 1]. Isoladamente, não permite tomar decisões.
+                    <br><em>Exemplos:</em> <code>6204</code>, <code>24</code>, <code>03/05/2026</code>.
+                </li>
+                <li><strong>Informação:</strong> É o dado processado, estruturado e contextualizado[cite: 1]. Adquire significado compreensível e passa a apoiar a tomada de decisão.
+                    <br><em>Exemplo:</em> "O componente com o código <code>6204</code> possui <code>24</code> unidades no stock na data <code>03/05/2026</code>."
+                </li>
+            </ul>
+
+            <div class="box box-info">
+                <strong>SGBD (Sistema Gerenciador de Banco de Dados):</strong> Software que atua como interface entre a aplicação e a base de dados armazenada. Garante a criação, modificação, acesso seguro e integridade dos dados (ex.: PostgreSQL, MySQL, SQL Server, Oracle).
+            </div>
+        </section>
+
+        <!-- AULA 02 -->
+        <section id="aula2" class="section">
+            <h2>2. Diagrama Entidade-Relacionamento (DER) <span class="tag tag-aula">Aula 02</span></h2>
+            
+            <p>O DER é o <strong>modelo conceitual</strong> que descreve os objetos e as suas associações no negócio de forma independente da tecnologia do SGBD[cite: 1].</p>
+
+            <h3>2.1. Elementos do DER</h3>
+            <ul>
+                <li><strong>Entidade:</strong> Representa um conjunto de objetos do mundo real sobre os quais se deseja guardar dados[cite: 1]. Graficamente é representada por um <strong>retângulo</strong> (ex.: <code>PECA</code>, <code>EQUIPAMENTO</code>).</li>
+                <li><strong>Atributo:</strong> Descreve as características de uma entidade[cite: 1]. Graficamente representado por <strong>elipses/óvalos</strong>:
+                    <ul>
+                        <li><em>Simples:</em> Indivisível (ex.: <code>CPF</code>).</li>
+                        <li><em>Composto:</em> Dividido em subpartes (ex.: <code>Endereco</code> &rarr; <code>Rua</code>, <code>Numero</code>, <code>CEP</code>).</li>
+                        <li><em>Multivalorado:</em> Pode ter vários valores para o mesmo elemento (ex.: <code>Telefone</code> — representado com elipse dupla).</li>
+                    </ul>
+                </li>
+                <li><strong>Relacionamento:</strong> Representa a associação lógica entre entidades[cite: 1]. Graficamente representado por um <strong>losango</strong> (ex.: <code>EQUIPAMENTO</code> <em>possui</em> <code>PECA</code>).</li>
+            </ul>
+
+            <h3>2.2. Cardinalidade</h3>
+            <p>Mapeia a quantidade mínima e máxima de ocorrências entre duas entidades[cite: 1]:</p>
+            <ul>
+                <li><strong>1:1 (Um para Um):</strong> Cada registo de A associa-se a no máximo um registo de B[cite: 1].</li>
+                <li><strong>1:N (Um para Muitos):</strong> Um registo de A associa-se a múltiplos em B, mas um registo em B liga-se a apenas um de A[cite: 1].</li>
+                <li><strong>N:M (Muitos para Muitos):</strong> Múltiplos registos de A ligam-se a múltiplos registos de B[cite: 1].</li>
+            </ul>
+        </section>
+
+        <!-- AULA 03 -->
+        <section id="aula3" class="section">
+            <h2>3. Tipos Especiais no DER <span class="tag tag-aula">Aula 03</span></h2>
+
+            <h3>3.1. Relacionamento Ternário</h3>
+            <p>Ocorre quando o relacionamento envolve <strong>três entidades em simultâneo</strong>[cite: 1]. A ligação só faz sentido com a presença das três envolvidas no mesmo evento (ex.: <code>TECNICO</code> instala <code>PECA</code> num <code>EQUIPAMENTO</code>)[cite: 1].</p>
+
+            <h3>3.2. Entidade Associativa</h3>
+            <p>Utilizada obrigatoriamente para **decompor relacionamentos $N:M$**[cite: 1]. Surge quando o próprio relacionamento entre duas entidades necessita de armazenar atributos próprios (ex.: o relacionamento $N:M$ entre <code>ALUNO</code> e <code>DISCIPLINA</code> gera a entidade associativa <code>MATRICULA</code>, que armazena a <code>Nota</code> e a <code>Frequencia</code>)[cite: 1].</p>
+
+            <h3>3.3. Entidade Fraca</h3>
+            <p>Uma entidade que não possui atributos suficientes para garantir identificação única individual[cite: 1]. A sua existência e identificação dependem diretamente de uma entidade "forte" (ex.: <code>DEPENDENTE</code> depende da existência de <code>FUNCIONARIO</code>)[cite: 1].</p>
+
+            <h3>3.4. Generalização e Especialização</h3>
+            <p>Mecanismo de **herança de atributos** entre entidades[cite: 1]:</p>
+            <ul>
+                <li><strong>Generalização:</strong> Agrupa entidades filhas semelhantes numa entidade pai genérica (ex.: <code>MOTO</code> e <code>CARRO</code> agrupados em <code>VEICULO</code>).</li>
+                <li><strong>Especialização:</strong> Subdivide uma entidade pai em entidades filhas com atributos específicos (ex.: <code>PECA</code> especializando-se em <code>PECA_ELETRICA</code> com <code>Voltagem</code> e <code>PECA_MECANICA</code> com <code>Material</code>)[cite: 1].</li>
+            </ul>
+        </section>
+
+        <!-- AULA 04 -->
+        <section id="aula4" class="section">
+            <h2>4. Modelagem a Partir de Texto <span class="tag tag-aula">Aula 04</span></h2>
+            
+            <p>Técnica de interpretação para extrair os elementos do DER a partir de requisitos textuais do cliente ou negócio[cite: 1]:</p>
+            
+            <div class="box box-warning">
+                <strong>Regras Práticas de Extração:</strong>
+                <ul>
+                    <li><strong>Substantivos</strong> tornam-se normalmente <code>ENTIDADES</code> ou <code>ATRIBUTOS</code> (ex.: "O cliente compra produtos" &rarr; Cliente e Produtos são Entidades).</li>
+                    <li><strong>Verbos</strong> tornam-se <code>RELACIONAMENTOS</code> (ex.: "compra", "possui", "aloca").</li>
+                    <li><strong>Expressões de quantidade</strong> definem a <code>CARDINALIDADE</code> (ex.: "um ou mais", "no máximo três", "obrigatoriamente um").</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- AULA 05 -->
+        <section id="aula5" class="section">
+            <h2>5. Esquema Relacional e Chaves <span class="tag tag-aula">Aula 05</span></h2>
+
+            <p>Mapeamento do modelo conceitual (DER) para o <strong>modelo lógico relacional</strong> (tabelas organizadas em linhas/tuplas e colunas/atributos)[cite: 1].</p>
+
+            <h3>5.1. Tipos de Chaves</h3>
+            <ul>
+                <li><strong>Chave Candidata:</strong> Qualquer atributo ou conjunto de atributos capaz de identificar de forma única uma linha da tabela[cite: 1].</li>
+                <li><strong>Chave Primária (PK - Primary Key):</strong> É a chave candidata eleita como identificador oficial da tabela[cite: 1]. **Nunca aceita valores nulos (<code>NULL</code>) nem duplicados**.</li>
+                <li><strong>Chave Estrangeira (FK - Foreign Key):</strong> Campo numa tabela que faz referência à Chave Primária de outra tabela, criando o vínculo entre elas[cite: 1].</li>
+                <li><strong>Chave Composta:</strong> Chave primária constituída pela junção de dois ou mais atributos[cite: 1].</li>
+            </ul>
+
+            <div class="box box-success">
+                <strong>Integridade Referencial:</strong> Regra inviolável do modelo relacional[cite: 1]. Exige que qualquer valor existente numa Chave Estrangeira (FK) deve obrigatoriamente corresponder a um valor existente de Chave Primária (PK) na tabela referenciada, evitando registos órfãos[cite: 1].
+            </div>
+
+            <h3>5.2. Regras de Mapeamento (DER &rarr; Relacional)</h3>
+            <ol>
+                <li><strong>Entidade Normal:</strong> Vira uma tabela com os seus atributos.</li>
+                <li><strong>Relacionamento 1:N:</strong> A PK da tabela do lado 1 passa para a tabela do lado N como Chave Estrangeira (FK).</li>
+                <li><strong>Relacionamento N:M:</strong> Gera obrigatoriamente uma nova tabela intermediária cuja PK será uma **Chave Composta** das PKs das tabelas envolvidas.</li>
+            </ol>
+        </section>
+
+        <!-- AULA 06 -->
+        <section id="aula6" class="section">
+            <h2>6. Normalização de Dados <span class="tag tag-aula">Aula 06</span></h2>
+
+            <p>Técnica formal para analisar esquemas relacionais com o objetivo de **eliminar a redundância de dados** e evitar anomalias de inserção, atualização e eliminação[cite: 1].</p>
+
+            <h3>Primeira Forma Normal (1FN)</h3>
+            <p><strong>Regra:</strong> Exige valores **atómicos** (indivisíveis) em cada célula da tabela[cite: 1]. Proíbe atributos multivalorados, compostos ou listas dentro do mesmo campo[cite: 1].</p>
+
+            <h3>Segunda Forma Normal (2FN)</h3>
+            <p><strong>Regra:</strong> Deve estar na 1FN e **todos os atributos não-chave devem depender inteiramente de TODA a chave primária**[cite: 1]. Aplica-se a tabelas que possuem Chave Primária Composta, eliminando dependências parciais[cite: 1].</p>
+
+            <h3>Terceira Forma Normal (3FN)</h3>
+            <p><strong>Regra:</strong> Deve estar na 2FN e **não podem existir dependências transitivas**[cite: 1]. Nenhum atributo não-chave pode depender de outro atributo não-chave (todos os não-chave devem depender diretamente apenas da PK)[cite: 1].</p>
+
+            <div class="box box-info">
+                <strong>Resumo Prático das Formas Normais:</strong>
+                <ul>
+                    <li><strong>1FN:</strong> "Sem listas ou atributos compostos nas células."</li>
+                    <li><strong>2FN:</strong> "Sem dependências de apenas parte da chave composta."</li>
+                    <li><strong>3FN:</strong> "Sem atributos não-chave dependendo de outros não-chave."</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
